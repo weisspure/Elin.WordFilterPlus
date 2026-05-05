@@ -1,0 +1,7 @@
+C:\Program Files (x86)\Steam\steamapps\common\Elin\BepInEx\plugins\WordFilterPlus\WordFilterPlus.dll
+C:\Program Files (x86)\Steam\steamapps\common\Elin\BepInEx\plugins\WordFilterPlus\WordFilterPlus.pdb
+C:\Git\Elin.SearchPlugin\WordFilterPlus\obj\Debug\WordFilterPlus.csproj.AssemblyReference.cache
+C:\Git\Elin.SearchPlugin\WordFilterPlus\obj\Debug\WordFilterPlus.GeneratedMSBuildEditorConfig.editorconfig
+C:\Git\Elin.SearchPlugin\WordFilterPlus\obj\Debug\WordFilterPlus.csproj.CoreCompileInputs.cache
+C:\Git\Elin.SearchPlugin\WordFilterPlus\obj\Debug\WordFilterPlus.dll
+C:\Git\Elin.SearchPlugin\WordFilterPlus\obj\Debug\WordFilterPlus.pdb

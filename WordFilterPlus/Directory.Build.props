@@ -1,0 +1,65 @@
+<Project>
+    <PropertyGroup Condition="'$(ElinGamePath.Trim())' == '' AND '$(OS)' == 'Windows_NT'">
+        <ElinGamePath>C:\Program Files (x86)\Steam\steamapps\common\Elin</ElinGamePath>
+    </PropertyGroup>
+    <PropertyGroup>
+        <NoWarn>1701;1702;8620;8604;649</NoWarn>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>portable</DebugType>
+        <Optimize>false</Optimize>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+        <DebugType>portable</DebugType>
+        <Optimize>true</Optimize>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="$(ElinGamePath)\BepInEx\core\0Harmony.dll">
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="$(ElinGamePath)\BepInEx\core\BepInEx.Core.dll">
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="$(ElinGamePath)\BepInEx\core\BepInEx.Unity.dll">
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="$(ElinGamePath)\BepInEx\core\Mono*.dll">
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="$(ElinGamePath)\Elin_Data\Managed\ClassLibrary2.dll">
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="$(ElinGamePath)\Elin_Data\Managed\Elin.dll">
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="$(ElinGamePath)\Elin_Data\Managed\Plugins.BaseCore.dll">
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="$(ElinGamePath)\Elin_Data\Managed\Plugins.UI.dll">
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="$(ElinGamePath)\Elin_Data\Managed\UnityEngine*.dll">
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="$(ElinGamePath)\Elin_Data\Managed\mscorlib.dll">
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="$(ElinGamePath)\Elin_Data\Managed\netstandard.dll">
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="$(ElinGamePath)\Elin_Data\Managed\System.dll">
+            <Private>False</Private>
+        </Reference>
+        <Reference Include="$(ElinGamePath)\Elin_Data\Managed\System.Core.dll">
+            <Private>False</Private>
+        </Reference>
+    </ItemGroup>
+</Project>
