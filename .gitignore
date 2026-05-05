@@ -17,9 +17,13 @@ packages/
 # Game DLLs referenced but not owned
 # (these live in ElinGamePath, not the repo)
 
-# Compiled plugin output — distributed separately, not versioned
+# Compiled plugin output — distributed via dist/, not versioned elsewhere
 *.dll
 *.pdb
+
+# But allow the dist folder (release artifacts tracked intentionally)
+!dist/
+!dist/**
 
 # OS
 .DS_Store

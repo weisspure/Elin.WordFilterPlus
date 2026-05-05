@@ -32,4 +32,23 @@
       DestinationFiles="@(Assets->'$(OutDir)%(RecursiveDir)%(Filename)%(Extension)')"
       SkipUnchangedFiles="true" />
   </Target>
+
+  <Target Name="CopyToDistFolder" AfterTargets="CopyAssets" Condition="'$(Configuration)' == 'Release'">
+    <PropertyGroup>
+      <DistDir>$(MSBuildProjectDirectory)\..\dist\Mod_WordFilterPlus\</DistDir>
+    </PropertyGroup>
+    <ItemGroup>
+      <DistDll Include="$(OutDir)$(AssemblyName).dll" />
+      <DistAssets Include="package\**\*.*" />
+    </ItemGroup>
+    <MakeDir Directories="$(DistDir)" />
+    <Copy
+      SourceFiles="@(DistDll)"
+      DestinationFiles="@(DistDll->'$(DistDir)%(Filename)%(Extension)')"
+      SkipUnchangedFiles="false" />
+    <Copy
+      SourceFiles="@(DistAssets)"
+      DestinationFiles="@(DistAssets->'$(DistDir)%(RecursiveDir)%(Filename)%(Extension)')"
+      SkipUnchangedFiles="false" />
+  </Target>
 </Project>

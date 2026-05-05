@@ -29,7 +29,6 @@ internal static class ExtendedFilter
     internal static global::Window.SaveData.FilterResult EvaluateFilter(
         string[] filterStrs, int[] filterOptions, string nameText, Thing? thing)
     {
-        bool hasExtended = HasExtendedTokens(filterStrs);
         bool anyInclude = false;
         bool hasIncludeToken = false;
 
@@ -120,8 +119,8 @@ internal static class ExtendedFilter
 
     private static (string op, string name) ParseRarityExpr(string expr)
     {
-        if (expr.StartsWith(">=")) return (">=", expr.Substring(2));
-        if (expr.StartsWith("<=")) return ("<=", expr.Substring(2));
+        if (expr.StartsWith(">=") || expr.StartsWith("=>")) return (">=", expr.Substring(2));
+        if (expr.StartsWith("<=") || expr.StartsWith("=<")) return ("<=", expr.Substring(2));
         if (expr.StartsWith(">")) return (">", expr.Substring(1));
         if (expr.StartsWith("<")) return ("<", expr.Substring(1));
         if (expr.StartsWith("=")) return ("=", expr.Substring(1));
@@ -133,7 +132,7 @@ internal static class ExtendedFilter
     /// </summary>
     private static bool TryParseRarity(string name, out Rarity rarity)
     {
-        name = name.Trim();
+        name = name.Trim().ToLower();
 
         // Try direct enum parse (internal names: crude, normal, superior, legendary, mythical, artifact)
         if (Enum.TryParse(name, ignoreCase: true, out rarity))
@@ -149,7 +148,6 @@ internal static class ExtendedFilter
             _ => Rarity.Normal
         };
 
-        // Return true only if it was a recognized display name
-        return name.ToLower() is "good" or "miracle" or "godly" or "artefact" or "precious";
+        return name is "good" or "miracle" or "godly" or "artefact" or "precious";
     }
 }

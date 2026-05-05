@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Meta>
+  <title>Word Filter Plus</title>
+  <id>dk.elinplugins.wordfilterplus</id>
+  <author>DK</author>
+  <builtin>false</builtin>
+  <loadPriority>69</loadPriority>
+  <version>1.0.0</version>
+  <tags>QoL,Filter</tags>
+  <description>
+[h1]Word Filter Plus[/h1]
+
+Extends Elin's distribution/stock word filters with new token types:
+
+[h2]Element matching — [code]@element[/code][/h2]
+Matches items that have a given skill or element on them, exactly like the in-game Ctrl+F search.
+[code]@fire[/code] — distributes all fire-enchanted gear.
+Only matches identified items (unidentified items are never matched by element).
+
+[h2]Identified predicate — [code]@identified[/code][/h2]
+Restricts the filter to identified or unidentified items only.
+[code]@identified[/code] — distributes only identified items.
+[code]-@identified[/code] — distributes only unidentified items.
+
+[h2]Rarity comparison — [code]rarity:OPname[/code][/h2]
+Filters by rarity tier using [code]=  &gt;  &gt;=  &lt;  &lt;=[/code].
+[code]rarity:&gt;=good[/code] — distributes Superior (good) and above.
+Rarity names (case-insensitive): [code]crude  normal  superior  legendary  mythical  artifact[/code]
+Display name aliases also accepted: [code]good  miracle  godly  artefact  precious[/code]
+
+[h2]Notes[/h2]
+[list]
+[*] All token types mix freely with each other and with plain name filters.
+[*] Block/pass operators ([code]-[/code] and [code]+[/code]) work with all token types.
+[*] Zero overhead on rules that use none of the new tokens.
+[*] Requires the [url=https://steamcommunity.com/workshop/filedetails/?id=3413072131]Package Chainloader[/url] mod (FixedPackageLoader) to load correctly when installed from Workshop.
+[/list]
+  </description>
+</Meta>
