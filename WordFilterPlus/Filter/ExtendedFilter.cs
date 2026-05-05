@@ -5,8 +5,8 @@ namespace WordFilterPlus.Filter;
 internal static class ExtendedFilter
 {
     private const int OptionInclude = 0;
-    private const int OptionBlock   = 1;
-    private const int OptionPass    = 2;
+    private const int OptionBlock = 1;
+    private const int OptionPass = 2;
 
     /// <summary>
     /// Returns true if any token in the already-built filter strings is an extended token.
@@ -30,12 +30,12 @@ internal static class ExtendedFilter
         string[] filterStrs, int[] filterOptions, string nameText, Thing? thing)
     {
         bool hasExtended = HasExtendedTokens(filterStrs);
-        bool anyInclude      = false;
+        bool anyInclude = false;
         bool hasIncludeToken = false;
 
         for (int i = 0; i < filterStrs.Length; i++)
         {
-            var token  = filterStrs[i];
+            var token = filterStrs[i];
             var option = filterOptions[i];
             if (token.Length == 0) continue;
 
@@ -56,8 +56,8 @@ internal static class ExtendedFilter
             }
         }
 
-        return (!anyInclude && hasIncludeToken) 
-            ? global::Window.SaveData.FilterResult.Block 
+        return (!anyInclude && hasIncludeToken)
+            ? global::Window.SaveData.FilterResult.Block
             : global::Window.SaveData.FilterResult.Pass;
     }
 
@@ -104,27 +104,28 @@ internal static class ExtendedFilter
     /// </summary>
     private static bool MatchRarity(string expr, Rarity itemRarity)
     {
-        string op;
-        string name;
-
-        if (expr.StartsWith(">="))      { op = ">="; name = expr.Substring(2); }
-        else if (expr.StartsWith("<=")) { op = "<="; name = expr.Substring(2); }
-        else if (expr.StartsWith(">"))  { op = ">";  name = expr.Substring(1); }
-        else if (expr.StartsWith("<"))  { op = "<";  name = expr.Substring(1); }
-        else if (expr.StartsWith("="))  { op = "=";  name = expr.Substring(1); }
-        else                            { op = "=";  name = expr; }
-
+        var (op, name) = ParseRarityExpr(expr);
         if (!TryParseRarity(name, out Rarity target)) return false;
 
         return op switch
         {
-            "="  => itemRarity == target,
-            ">"  => itemRarity >  target,
+            "=" => itemRarity == target,
+            ">" => itemRarity > target,
             ">=" => itemRarity >= target,
-            "<"  => itemRarity <  target,
+            "<" => itemRarity < target,
             "<=" => itemRarity <= target,
-            _    => false,
+            _ => false,
         };
+    }
+
+    private static (string op, string name) ParseRarityExpr(string expr)
+    {
+        if (expr.StartsWith(">=")) return (">=", expr.Substring(2));
+        if (expr.StartsWith("<=")) return ("<=", expr.Substring(2));
+        if (expr.StartsWith(">")) return (">", expr.Substring(1));
+        if (expr.StartsWith("<")) return ("<", expr.Substring(1));
+        if (expr.StartsWith("=")) return ("=", expr.Substring(1));
+        return ("=", expr);
     }
 
     /// <summary>
