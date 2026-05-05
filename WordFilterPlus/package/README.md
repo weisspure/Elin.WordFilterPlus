@@ -42,7 +42,6 @@ These already exist in Elin's vanilla filter system:
 Note: Vanilla does **not** support `@enchantment` or other property filters in the distribution system.
 
 ## Blocking & Including
-
 **All Elin operators work with extended filters:**
 
 - `-` prefix — **Block** items matching the filter (exclude them)
@@ -63,21 +62,18 @@ Without prefix, filters **include** items matching the criteria.
 
 **Extended: Include identified Superior+ items, exclude fire enchantments:**
 ```
-@identified
-rarity:>=superior
+@identified,rarity:>=superior
 -@fire
 ```
 
 **Mixed: Unidentified items named "sword":**
 ```
--@identified
-sword
+-@identified,sword
 ```
 
 **Extended: Block common items, force include Superior+:**
 ```
--rarity:normal
-+rarity:>=good
+-rarity:normal,+rarity:>=good
 ```
 
 **Vanilla: Block items with "sword" in name:**
@@ -87,11 +83,13 @@ sword
 
 ## Combining Filters
 
-Separate multiple filters with **commas** (`,`). Japanese commas (`、`) are also accepted as an alias:
+Separate multiple filters with **commas** (`,`) or Japanese commas (`、`):
 
 ```
 @identified,rarity:>=good,-@fire
 ```
+
+Or one per line in the filter UI (each line is a separate filter field).
 
 The game's filter logic applies them as follows:
 - All **include** filters must match (or if none exist, all non-blocked items pass)
