@@ -24,6 +24,7 @@ Restricts the filter to identified or unidentified items only.
 
 [h2]Rarity comparison — [code]rarity:OPname[/code][/h2]
 Filters by rarity tier using [code]=  &gt;  &gt;=  &lt;  &lt;=[/code].
+[code]=&gt;[/code] is also accepted as [code]&gt;=[/code], and [code]=&lt;[/code] as [code]&lt;=[/code].
 [code]rarity:&gt;=good[/code] — distributes Superior (good) and above.
 Rarity names (case-insensitive): [code]crude  normal  superior  legendary  mythical  artifact[/code]
 Display name aliases also accepted: [code]good  miracle  godly  artefact  precious[/code]
@@ -33,7 +34,6 @@ Display name aliases also accepted: [code]good  miracle  godly  artefact  precio
 [*] All token types mix freely with each other and with plain name filters.
 [*] Block/pass operators ([code]-[/code] and [code]+[/code]) work with all token types.
 [*] Zero overhead on rules that use none of the new tokens.
-[*] Requires the [url=https://steamcommunity.com/workshop/filedetails/?id=3413072131]Package Chainloader[/url] mod (FixedPackageLoader) to load correctly when installed from Workshop.
 [/list]
   </description>
 </Meta>

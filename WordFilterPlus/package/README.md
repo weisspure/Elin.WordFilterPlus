@@ -16,6 +16,8 @@ Match items by rarity level with comparison operators. You can use either **inte
 - `rarity:>=good` — Match Superior or rarer
 - `rarity:<=miracle` — Match Legendary or less rare
 
+Operator note: `=>` is accepted as `>=`, and `=<` is accepted as `<=`.
+
 **Available rarity levels:**
 - `crude` (no display name equivalent)
 - `normal` → displays as "normal"
@@ -92,7 +94,7 @@ Separate multiple filters with **commas** (`,`) or Japanese commas (`、`):
 Or one per line in the filter UI (each line is a separate filter field).
 
 The game's filter logic applies them as follows:
-- All **include** filters must match (or if none exist, all non-blocked items pass)
+- If one or more **include** filters exist, at least one include match is required
 - Any **block** (`-`) filter triggers immediate exclusion
 - Any **pass** (`+`) filter triggers immediate inclusion
 
