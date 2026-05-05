@@ -62,8 +62,7 @@ Without prefix, filters **include** items matching the criteria.
 
 **Extended: Include identified Superior+ items, exclude fire enchantments:**
 ```
-@identified,rarity:>=superior
--@fire
+@identified,rarity:>=superior,-@fire
 ```
 
 **Mixed: Unidentified items named "sword":**
@@ -88,8 +87,6 @@ Separate multiple filters with **commas** (`,`) or Japanese commas (`、`):
 ```
 @identified,rarity:>=good,-@fire
 ```
-
-Or one per line in the filter UI (each line is a separate filter field).
 
 The game's filter logic applies them as follows:
 - All **include** filters must match (or if none exist, all non-blocked items pass)

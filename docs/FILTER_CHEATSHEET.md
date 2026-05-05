@@ -25,14 +25,84 @@ Plain-text tokens are a simple case-insensitive `Contains()` on the display name
 
 #### Element / enchantment search — `@query`
 
-| Syntax | Matches |
-|--------|---------|
-| `@fire` | Item has any element whose internal name or display name contains `fire` |
-| `@identified` | Item is identified (`thing.IsIdentified == true`) |
-| `-@fire` | Block items that have `fire` elements |
+Matches items where any element's **internal alias** or **display name** contains the query (case-insensitive substring). Requires the item to be identified, except `@identified` which is the identification check itself.
 
-Requires the item to be identified (same rule as the Ctrl+F enc-search below).
-`@identified` never requires identification to evaluate — it is the identification check itself.
+**Elemental attack/resistance** — both the attack and resistance share the same word, so one query catches both:
+
+| Query | Catches |
+|-------|---------|
+| `@fire` | Fire Attack (`eleFire`) + Fire Resistance (`resFire`) |
+| `@cold` | Cold Attack + Cold Resistance |
+| `@lightning` | Lightning Attack + Lightning Resistance |
+| `@nether` | Nether Attack + Nether Resistance |
+| `@acid` | Acid Attack + Acid Resistance |
+| `@darkness` | Darkness Attack + Darkness Resistance |
+| `@chaos` | Chaos Attack + Chaos Resistance |
+| `@poison` | Poison Attack + Poison Resistance |
+| `@mind` | Mind Attack + Mind Resistance |
+| `@nerve` | Nerve Attack + Nerve Resistance |
+| `@ether` | Ether Attack + Ether Resistance |
+| `@sound` | Sound Attack + Sound Resistance |
+| `@cut` | Cut Attack + Cut Resistance |
+| `@holy` | Holy Attack + Holy Veil ability |
+| `@magic` | Magic Attack + Magic Resistance + Magic (MAG) attribute |
+| `@ele` | **Any** elemental attack enchantment |
+| `@res` | **Any** resistance enchantment |
+| `-@fire` | Block items that have any fire element |
+
+**Attributes** — use the 2–3 letter stat code or the full word:
+
+| Query | Attribute |
+|-------|-----------|
+| `@str` or `@strength` | Strength |
+| `@dex` or `@dexterity` | Dexterity |
+| `@spd` or `@speed` | Speed |
+| `@per` or `@perception` | Perception |
+| `@wil` or `@will` | Will |
+| `@mag` | Magic / Mana (also matches magic enchantments) |
+| `@cha` or `@charisma` | Charisma |
+| `@end` or `@endurance` | Endurance |
+| `@luc` or `@luck` | Luck |
+| `@ler` or `@learning` | Learning |
+
+**Skills:**
+
+| Query | Skill |
+|-------|-------|
+| `@fishing` | Fishing |
+| `@mining` | Mining |
+| `@taming` | Taming |
+| `@swimming` | Swimming |
+| `@lumberjack` | Lumberjacking |
+| `@acrobat` | Acrobat |
+| `@lockpicking` | Lockpicking |
+| `@spot` | Spot Hidden |
+| `@digging` | Digging |
+| `@gathering` | Gathering |
+| `@tilling` | Tilling |
+| `@weightlifting` | Weightlifting |
+| `@travel` | Travel |
+
+**Abilities and stats:**
+
+| Query | What it finds |
+|-------|--------------|
+| `@teleport` | Teleport ability |
+| `@heal` | Heal ability + Healing |
+| `@detox` | Detox ability |
+| `@bind` | Bind ability |
+| `@return` | Return ability |
+| `@sense` | Sense Treasure ability |
+| `@hit` or `@tohit` | ToHit bonus |
+| `@life` | Life bonus |
+| `@mana` | Mana bonus |
+
+**Identification:**
+
+| Query | What it finds |
+|-------|--------------|
+| `@identified` | Only identified items (evaluated without requiring identification) |
+| `-@identified` | Block identified items (i.e. show only unidentified) |
 
 #### Rarity filter — `rarity:expression`
 
@@ -61,15 +131,19 @@ Requires the item to be identified (same rule as the Ctrl+F enc-search below).
 
 Both internal names and display aliases are accepted, case-insensitive.
 
-### Examples
+### Combined examples
 
 ```
-@fire                     show items with fire element
-@identified               show only identified items
-rarity:>=good             show Superior and above
--rarity:=normal           hide Normal rarity
-sword @fire rarity:>normal  show identified swords with fire element, above Normal
--@identified              hide unidentified items from distribution
+@fire                           show items with any fire element
+-@identified                    show only unidentified items
+rarity:>=good                   show Superior and above
+-rarity:=normal                 hide Normal rarity items
+sword @fire                     swords with fire attack or resistance
+sword @fire rarity:>normal      fire swords above Normal rarity
+@nether @str                    items with nether element AND Strength bonus
+@res -@fire                     any resistance EXCEPT fire
+rarity:artifact                 artifacts only
+-rarity:<=normal                hide Crude and Normal (same as rarity:>normal)
 ```
 
 ---
@@ -91,16 +165,52 @@ Only works in home zones (PC faction / tent / town).
 
 Type `@` before your query to switch to element/enchantment mode.
 
-Calls `Thing.MatchEncSearch(s)` which:
-- **Identified items**: returns `true` if any element on the item has an internal name or display name containing `s` with a non-zero value.
+Calls `Thing.MatchEncSearch(s)` which checks two fields per element:
+- `element.source.name` — the internal alias (e.g. `eleFire`, `resCold`, `casting`, `speed`)
+- `element.source.GetName()` — the localized display name (e.g. "Fire Attack", "Cold Resistance")
+
+If either field contains the query string (case-insensitive substring), the item matches.
+
+Rules:
+- **Identified items**: matches if any element with a non-zero value matches. `@fire` hits both fire *attack* enchantments and fire *resistance* because both contain "fire".
 - **Gene items** (`TraitGene`): scans DNA element names regardless of identification; skips Brain and Inferior DNA types.
 - **Unidentified items**: always returns `false`.
 
-| Syntax | Behaviour |
-|--------|-----------|
-| `fire` | Normal text search — find items/NPCs with "fire" in name |
-| `@fire` | Enc-search — find identified items with a "fire" element |
-| `@speed` | Find items enchanted with speed-related elements |
+| Syntax | What it finds |
+|--------|--------------|
+| `fire` | Items/NPCs with "fire" in display name |
+| `@fire` | Fire Attack + Fire Resistance (alias `eleFire`/`resFire` both contain "fire") |
+| `@cold` | Cold Attack + Cold Resistance |
+| `@nether` | Nether Attack + Nether Resistance |
+| `@lightning` | Lightning Attack + Lightning Resistance |
+| `@acid` | Acid Attack + Acid Resistance |
+| `@darkness` | Darkness Attack + Darkness Resistance |
+| `@chaos` | Chaos Attack + Chaos Resistance |
+| `@poison` | Poison Attack + Poison Resistance |
+| `@magic` | Magic Attack + Magic Resistance + Magic attribute |
+| `@mind` | Mind Attack + Mind Resistance |
+| `@ether` | Ether Attack + Ether Resistance |
+| `@holy` | Holy Attack + Holy Veil ability |
+| `@ele` | Any elemental attack enchantment |
+| `@res` | Any resistance enchantment |
+| `@str` | Strength attribute (alias `STR`) |
+| `@spd` or `@speed` | Speed attribute (alias `SPD`) |
+| `@per` | Perception (alias `PER`) |
+| `@wil` | Will (alias `WIL`) |
+| `@mag` | Magic/Mana (alias `MAG`) |
+| `@cha` | Charisma (alias `CHA`) |
+| `@end` | Endurance (alias `END`) |
+| `@luc` | Luck (alias `LUC`) |
+| `@fishing` | Fishing skill |
+| `@mining` | Mining skill |
+| `@taming` | Taming skill |
+| `@lumberjack` | Lumberjacking skill |
+| `@acrobat` | Acrobat skill |
+| `@spot` | Spot Hidden skill |
+| `@teleport` | Teleport ability |
+| `@heal` | Heal/Healing |
+| `@detox` | Detox ability |
+| `@bind` | Bind ability |
 
 The `@` prefix is consumed before the query is passed down; the query itself is lowercased.
 Full-width `＠` is also accepted as an alias.
